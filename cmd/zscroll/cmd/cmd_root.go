@@ -10,15 +10,17 @@ import (
 var rootOptions struct {
 	text string
 
-	afterText   string
-	beforeText  string
-	delay       float64
-	length      int
-	newLine     bool
-	paddingText string
-	reverse     bool
-	scroll      bool
-	timeout     int
+	afterText      string
+	beforeText     string
+	delay          float64
+	length         int
+	newLine        bool
+	paddingText    string
+	reverse        bool
+	scroll         bool
+	timeout        int
+	updateCommand  string
+	updateInterval int
 
 	version bool
 }
@@ -31,15 +33,17 @@ func runRoot(cmd *cobra.Command, args []string) error {
 	scroller, err := zscroll.NewScroller(
 		rootOptions.text,
 		zscroll.ScrollerOptions{
-			AfterText:   rootOptions.afterText,
-			BeforeText:  rootOptions.beforeText,
-			Delay:       rootOptions.delay,
-			Length:      rootOptions.length,
-			NewLine:     rootOptions.newLine,
-			PaddingText: rootOptions.paddingText,
-			Reverse:     rootOptions.reverse,
-			Scroll:      rootOptions.scroll,
-			Timeout:     rootOptions.timeout,
+			AfterText:      rootOptions.afterText,
+			BeforeText:     rootOptions.beforeText,
+			Delay:          rootOptions.delay,
+			Length:         rootOptions.length,
+			NewLine:        rootOptions.newLine,
+			PaddingText:    rootOptions.paddingText,
+			Reverse:        rootOptions.reverse,
+			Scroll:         rootOptions.scroll,
+			Timeout:        rootOptions.timeout,
+			UpdateCommand:  rootOptions.updateCommand,
+			UpdateInterval: rootOptions.updateInterval,
 		},
 	)
 	if err != nil {
@@ -72,6 +76,8 @@ func init() { //nolint:gochecknoinits
 	rootCmd.Flags().BoolVarP(&rootOptions.reverse, "reverse", "r", false, "scroll from left to right")
 	rootCmd.Flags().BoolVarP(&rootOptions.scroll, "scroll", "s", true, "whether to scroll")
 	rootCmd.Flags().IntVarP(&rootOptions.timeout, "timeout", "t", -1, "time in seconds to exit")
+	rootCmd.Flags().StringVarP(&rootOptions.updateCommand, "update-command", "u", "", "update command to change the scroll-text")
+	rootCmd.Flags().IntVarP(&rootOptions.updateInterval, "update-interval", "U", 1, "time in seconds to execute the update command")
 
 	rootCmd.Flags().BoolVarP(&rootOptions.version, "version", "V", false, "show version")
 }
