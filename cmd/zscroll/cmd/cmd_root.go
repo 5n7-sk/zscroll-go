@@ -18,6 +18,7 @@ var rootOptions struct {
 	paddingText    string
 	reverse        bool
 	scroll         bool
+	scrollRate     int
 	timeout        int
 	updateCommand  string
 	updateInterval int
@@ -41,6 +42,7 @@ func runRoot(cmd *cobra.Command, args []string) error {
 			PaddingText:    rootOptions.paddingText,
 			Reverse:        rootOptions.reverse,
 			Scroll:         rootOptions.scroll,
+			ScrollRate:     rootOptions.scrollRate,
 			Timeout:        rootOptions.timeout,
 			UpdateCommand:  rootOptions.updateCommand,
 			UpdateInterval: rootOptions.updateInterval,
@@ -75,6 +77,7 @@ func init() { //nolint:gochecknoinits
 	rootCmd.Flags().StringVarP(&rootOptions.paddingText, "padding-text", "p", " - ", "padding text to diplay between the end and the head of the scroll-text")
 	rootCmd.Flags().BoolVarP(&rootOptions.reverse, "reverse", "r", false, "scroll from left to right")
 	rootCmd.Flags().BoolVarP(&rootOptions.scroll, "scroll", "s", true, "whether to scroll")
+	rootCmd.Flags().IntVarP(&rootOptions.scrollRate, "scroll-rate", "S", 1, "number of characters to scroll")
 	rootCmd.Flags().IntVarP(&rootOptions.timeout, "timeout", "t", -1, "time in seconds to exit")
 	rootCmd.Flags().StringVarP(&rootOptions.updateCommand, "update-command", "u", "", "update command to change the scroll-text")
 	rootCmd.Flags().IntVarP(&rootOptions.updateInterval, "update-interval", "U", 1, "time in seconds to execute the update command")

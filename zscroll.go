@@ -20,6 +20,7 @@ type Scroller struct {
 	PaddingText    string
 	Reverse        bool
 	Scroll         bool
+	ScrollRate     int
 	Timeout        int
 	UpdateCommand  string
 	UpdateInterval int
@@ -36,6 +37,7 @@ type ScrollerOptions struct {
 	PaddingText    string
 	Reverse        bool
 	Scroll         bool
+	ScrollRate     int
 	Timeout        int
 	UpdateCommand  string
 	UpdateInterval int
@@ -44,6 +46,10 @@ type ScrollerOptions struct {
 func NewScroller(text string, opt ScrollerOptions) (*Scroller, error) {
 	if len(text) == 0 {
 		return nil, fmt.Errorf("text is empty")
+	}
+
+	if opt.ScrollRate <= 0 {
+		return nil, fmt.Errorf("non-positive scroll rate: %d", opt.ScrollRate)
 	}
 
 	if opt.UpdateInterval <= 0 {
@@ -61,6 +67,7 @@ func NewScroller(text string, opt ScrollerOptions) (*Scroller, error) {
 		PaddingText:    opt.PaddingText,
 		Reverse:        opt.Reverse,
 		Scroll:         opt.Scroll,
+		ScrollRate:     opt.ScrollRate,
 		Timeout:        opt.Timeout,
 		UpdateCommand:  opt.UpdateCommand,
 		UpdateInterval: opt.UpdateInterval,
@@ -155,7 +162,9 @@ func (s *Scroller) Run() error {
 		default:
 			s.print()
 			time.Sleep(time.Duration(s.Delay*1000) * time.Millisecond)
-			s.step()
+			for i := 0; i < s.ScrollRate; i++ {
+				s.step()
+			}
 		}
 	}
 }
