@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/skmatz/zscroll-go"
 	"github.com/spf13/cobra"
@@ -62,7 +63,7 @@ var rootCmd = &cobra.Command{
 		if len(args) < 1 {
 			return fmt.Errorf("requires a text to display")
 		}
-		rootOptions.text = args[0]
+		rootOptions.text = strings.Join(args, " ")
 		return nil
 	},
 	RunE: runRoot,
