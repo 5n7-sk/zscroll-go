@@ -115,7 +115,7 @@ func TestScroller_step(t *testing.T) {
 				Scroll:  true,
 				index:   9,
 			},
-			want: 0,
+			want: 2,
 		},
 		{
 			fields: fields{
@@ -124,7 +124,7 @@ func TestScroller_step(t *testing.T) {
 				Scroll:  true,
 				index:   0,
 			},
-			want: 9,
+			want: 7,
 		},
 		{
 			fields: fields{
@@ -144,7 +144,7 @@ func TestScroller_step(t *testing.T) {
 				Scroll:  tt.fields.Scroll,
 				index:   tt.fields.index,
 			}
-			if s.step(); s.index != tt.want {
+			if s.step().step().step(); s.index != tt.want {
 				t.Errorf("Scroller.index = %v, want %v", s, tt.want)
 			}
 		})

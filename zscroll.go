@@ -91,9 +91,9 @@ func (s *Scroller) print() {
 	}
 }
 
-func (s *Scroller) step() {
+func (s *Scroller) step() *Scroller {
 	if !s.Scroll {
-		return
+		return s
 	}
 
 	length := len(s.Text) + len(s.PaddingText)
@@ -102,6 +102,7 @@ func (s *Scroller) step() {
 	} else {
 		s.index = (s.index - 1 + length) % length
 	}
+	return s
 }
 
 func (s *Scroller) Run() error {
