@@ -1,0 +1,36 @@
+project_name: zscroll
+
+env:
+  - GO111MODULE=on
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - main: ./cmd/zscroll
+    binary: zscroll
+    ldflags:
+      - -s -w
+      - -X github.com/skmatz/zscroll-go/cmd/zscroll/cmd.Version={{ .Version }}
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - 386
+      - amd64
+
+archives:
+  - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    replacements:
+      386: i386
+      amd64: x86_64
+    format_overrides:
+      - goos: windows
+        format: zip
+
+release:
+  prerelease: auto
