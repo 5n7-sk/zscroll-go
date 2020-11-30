@@ -60,7 +60,7 @@ var rootCmd = &cobra.Command{
 	Short: "A text scroller for panels or terminals",
 	Long:  "A text scroller for panels or terminals.",
 	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
+		if !rootOptions.version && len(args) < 1 {
 			return fmt.Errorf("requires a text to display")
 		}
 		rootOptions.text = strings.Join(args, " ")
